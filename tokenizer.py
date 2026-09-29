@@ -13,7 +13,7 @@ class KenjiTokenizer:
             for item in preprocessed # we only want the words, thats why we looped thro the preprocessed
         ]
         ids = [self.str_to_int[s] for s in preprocessed]
-        print(type(ids), ids)
+        # print(type(ids), ids)
         return ids
 
     def decode(self, ids):

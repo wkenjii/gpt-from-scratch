@@ -8,10 +8,19 @@ def build_vocab(text):
     tokens.append("<|endoftext|>") 
     return {tok: i for i, tok in enumerate(tokens)} # enumerate always yields (index, item)
 
-# def test_roundtrip():
-#     text = "Hello, do you like tea? I do."
-#     tok = KenjiTokenizer(build_vocab(text))
-#     assert tok.decode(tok.encode(text)) == text
+def test_roundtrip():
+    text = "Hello, do you like tea? I do."
+    tok = KenjiTokenizer(build_vocab(text))
+    assert tok.decode(tok.encode(text)) == text
+
+def test_unknown_maps_to_unk():
+    text = "Hello, do you like tea? I do."
+    vocab = build_vocab(text)
+    tokenizer = KenjiTokenizer(vocab)
+
+    ids = tokenizer.encode("Hellow")
+
+    assert ids == [vocab["<|unk|>"]]
 
 def test_endoftext_is_one_token():
     text = "Hello, do you like tea? I do."
@@ -25,5 +34,7 @@ def test_endoftext_is_one_token():
     assert ids[4] == vocab["<|endoftext|>"]
 
 if __name__ == "__main__":
+    test_roundtrip()
+    test_unknown_maps_to_unk()
     test_endoftext_is_one_token()
     print("pass")
